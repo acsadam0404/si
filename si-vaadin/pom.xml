@@ -2,16 +2,51 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>si-vaadin</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
-	
+
 	<parent>
 		<groupId>hu.si</groupId>
 		<artifactId>si-superpom</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
 	</parent>
+	<properties>
+		<vaadin.version>7.4.1</vaadin.version>
+		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>hu.si</groupId>
+			<artifactId>si-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<!-- Needed when using the widgetset optimizer (custom ConnectorBundleLoaderFactory). For widgetset compilation, vaadin-client-compiler is automatically added on the compilation classpath by vaadin-maven-plugin so normally there is no need for an explicit dependency. -->
+		<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client-compiler</artifactId> <version>${vaadin.version}</version> <scope>provided</scope> </dependency> -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-push</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-themes</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
-
 </project>

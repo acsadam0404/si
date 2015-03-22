@@ -10,24 +10,9 @@
 		<javac.version>1.8</javac.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.4.1</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${javac.version}</source>
-					<target>${javac.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 	<repositories>
 		<repository>
@@ -45,6 +30,158 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-eclipse-compiler</artifactId>
+					<version>2.7.0-01</version>
+					<extensions>true</extensions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<dependencies>
+						<dependency>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-runtime</artifactId>
+							<version>0.6.4</version>
+						</dependency>
+						<dependency>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>0.6.4</version>
+						</dependency>
+						<dependency>
+							<groupId>com.sun.xml.bind</groupId>
+							<artifactId>jaxb-impl</artifactId>
+							<version>2.2</version>
+						</dependency>
+						<dependency>
+							<groupId>com.sun.xml.bind</groupId>
+							<artifactId>jaxb-xjc</artifactId>
+							<version>2.2</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<id>generate-sources</id>
+							<phase>generate-sources</phase>
+							<!-- sample service -->
+							<!-- <configuration> -->
+							<!-- <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot> -->
+							<!-- <wsdlOptions> -->
+							<!-- <wsdlOption> -->
+							<!-- <wsdl>http://www.mnb.hu/arfolyamok.asmx?WSDL</wsdl> -->
+							<!-- <extraargs> -->
+							<!-- <extraarg>-client</extraarg> -->
+							<!-- <extraarg>-xjc-XhashCode</extraarg> -->
+							<!-- <extraarg>-xjc-Xequals</extraarg> -->
+							<!-- </extraargs> -->
+							<!-- </wsdlOption> -->
+							<!-- </wsdlOptions> -->
+							<!-- </configuration> -->
+							<goals>
+								<goal>wsdl2java</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>hibernate3-maven-plugin</artifactId>
+					<version>2.2</version>
+					<executions>
+						<execution>
+							<phase>compile</phase>
+							<goals>
+								<goal>hbm2ddl</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<components>
+							<component>
+								<name>hbm2ddl</name>
+								<implementation>jpaconfiguration</implementation>
+							</component>
+						</components>
+						<componentProperties>
+							<persistenceunit>Default</persistenceunit>
+							<outputfilename>schema.sql</outputfilename>
+							<drop>false</drop>
+							<create>true</create>
+							<export>false</export>
+							<format>true</format>
+						</componentProperties>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-core</artifactId>
+							<version>3.5.3-Final</version>
+						</dependency>
+
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-entitymanager</artifactId>
+							<version>3.5.3-Final</version>
+						</dependency>
+
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-validator</artifactId>
+							<version>5.0.2.Final</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${javac.version}</source>
+						<target>${javac.version}</target>
+					</configuration>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>hibernate3-maven-plugin</artifactId>
+										<versionRange>[2.2,)</versionRange>
+										<goals>
+											<goal>hbm2ddl</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 	<pluginRepositories>
 		<pluginRepository>
@@ -65,27 +202,39 @@
 		<dependencies>
 			<dependency>
 				<groupId>hu.si</groupId>
-				<artifactId>si-core</artifactId>
-				<version>0.1.0-SNAPSHOT</version>
-			</dependency>
-
-			<dependency>
-				<groupId>hu.si</groupId>
 				<artifactId>si-vaadin</artifactId>
 				<version>0.1.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>17.0</version>
+				<groupId>hu.si</groupId>
+				<artifactId>si-core</artifactId>
+				<version>0.1.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>pl.exsio</groupId>
+				<artifactId>plupload-vaadin</artifactId>
+				<version>1.4.2</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.apache.directory.server</groupId>
-				<artifactId>apacheds-all</artifactId>
-				<version>2.0.0-M16</version>
+				<groupId>org.vaadin.addons</groupId>
+				<artifactId>filteringtable</artifactId>
+				<version>0.9.11.v7</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.vaadin.addons</groupId>
+				<artifactId>tableexport</artifactId>
+				<version>1.4.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ru.xpoft.vaadin</groupId>
+				<artifactId>spring-vaadin-integration</artifactId>
+				<version>2.0.2</version>
+			</dependency>
+
 
 			<dependency>
 				<groupId>org.vaadin.addons</groupId>
@@ -100,9 +249,38 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>2.3.18</version>
+				<groupId>org.vaadin.addons</groupId>
+				<artifactId>buttongroup</artifactId>
+				<version>2.3</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.vaadin.addons</groupId>
+				<artifactId>tokenfield</artifactId>
+				<version>7.0.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.vaadin.addon</groupId>
+				<artifactId>confirmdialog</artifactId>
+				<version>2.0.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin.addon</groupId>
+				<artifactId>vaadin-charts</artifactId>
+				<version>1.1.6</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>17.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.directory.server</groupId>
+				<artifactId>apacheds-all</artifactId>
+				<version>2.0.0-M16</version>
 			</dependency>
 
 			<dependency>
@@ -153,58 +331,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-server</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-client-compiled</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-client</artifactId>
-				<version>${vaadin.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-push</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-themes</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.vaadin.addons</groupId>
-				<artifactId>buttongroup</artifactId>
-				<version>2.3</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.vaadin.addons</groupId>
-				<artifactId>tokenfield</artifactId>
-				<version>7.0.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.vaadin.addon</groupId>
-				<artifactId>confirmdialog</artifactId>
-				<version>2.0.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.vaadin.addon</groupId>
-				<artifactId>vaadin-charts</artifactId>
-				<version>1.1.6</version>
-			</dependency>
-
-			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
@@ -229,13 +355,6 @@
 				<version>3.1</version>
 			</dependency>
 
-			<!-- spring -->
-			<dependency>
-				<groupId>ru.xpoft.vaadin</groupId>
-				<artifactId>spring-vaadin-integration</artifactId>
-				<version>2.0.2</version>
-			</dependency>
-
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
@@ -256,19 +375,6 @@
 				<groupId>org.springframework.ldap</groupId>
 				<artifactId>spring-ldap-core-tiger</artifactId>
 				<version>2.0.1.RELEASE</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.vaadin.addons</groupId>
-				<artifactId>filteringtable</artifactId>
-				<version>0.9.11.v7</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.vaadin.addons</groupId>
-				<artifactId>tableexport</artifactId>
-				<version>1.4.0</version>
 			</dependency>
 
 			<dependency>
@@ -386,10 +492,11 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.14</version>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.2</version>
 			</dependency>
+
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -401,7 +508,6 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
-				<scope>test</scope>
 			</dependency>
 
 			<!-- SOAP webservice hívások (CXF) -->
@@ -431,8 +537,8 @@
 				<artifactId>groovy-all</artifactId>
 				<version>2.3.6</version>
 			</dependency>
-
-
 		</dependencies>
 	</dependencyManagement>
+
+
 </project>
