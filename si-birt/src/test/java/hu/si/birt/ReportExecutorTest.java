@@ -9,15 +9,15 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.junit.Test;
 
 public class ReportExecutorTest {
-//	@Test
+	@Test
 	public void test() throws EngineException, BirtException {
-		new XmlReportExecutor(Paths.get("/home/aacs/tmp"), Paths.get("/home/aacs/tmp")).execute(
+		new XmlReportExecutor(Paths.get("C:/tmp"), Paths.get("C:/tmp")).execute(
 				getClass().getResourceAsStream("test.rptdesign"), getClass()
 						.getResourceAsStream("people.xml"), SIRenderOption.PDF,
 				"test.pdf");
 	}
 
-//	@Test
+	@Test
 	public void testInline() throws BirtException {
 		XmlReportExecutor executor = null;
 		InputStream dataSource = new ByteArrayInputStream(
@@ -26,7 +26,7 @@ public class ReportExecutorTest {
 
 		InputStream rptDesign = getClass()
 				.getResourceAsStream("test.rptdesign");
-		executor = new XmlReportExecutor(Paths.get("/home/aacs/tmp"),Paths.get("/home/aacs/tmp"));
+		executor = new XmlReportExecutor(Paths.get("C:/tmp"),Paths.get("C:/tmp"));
 		executor.execute(rptDesign, dataSource, SIRenderOption.PDF,
 				"test2.pdf");
 	}
