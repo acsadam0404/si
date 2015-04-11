@@ -1,6 +1,7 @@
 package hu.si.birt;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 
@@ -29,5 +30,11 @@ public class ReportExecutorTest {
 		executor = new XmlReportExecutor(Paths.get("C:/tmp"),Paths.get("C:/tmp"));
 		executor.execute(rptDesign, dataSource, SIRenderOption.PDF,
 				"test2.pdf");
+	}
+	
+	@Test
+	public void testFileSystem() throws EngineException, BirtException, IOException {
+		String xml = new File("c:/tmp/kuru/sample-bill.xml").getText("UTF-8")
+		new XmlReportExecutor(Paths.get("C:/tmp/kuru"), Paths.get("C:/tmp/kuru")).execute("invoice.rptdesign", xml, SIRenderOption.PDF,	"kurutest.pdf");
 	}
 }
